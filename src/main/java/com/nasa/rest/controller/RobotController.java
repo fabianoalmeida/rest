@@ -10,12 +10,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.nasa.rest.constants.Movement;
 import com.nasa.rest.model.Robot;
 import com.nasa.rest.model.Terrain;
 
 @Path("/")
-public class RequestController {
+public class RobotController {
 
 	private Robot robot;
 	
@@ -33,13 +32,11 @@ public class RequestController {
 		
 		try {
 
-			validateCommand( command );
-			
 			if ( robot == null ) {
 				robot = Robot.build();
 			}
 			
-			robot.move( command.toUpperCase(), Terrain.build() );
+			robot.move( command, Terrain.build() );
 			
 			Response.status( Response.Status.OK ).build();
 			
@@ -57,23 +54,5 @@ public class RequestController {
 			Response.status( Response.Status.FORBIDDEN ).build();
 			return ex.getMessage();
 		}
-	}
-
-	private void validateCommand( String command ) throws BadRequestException {
-		
-		if ( command == null
-				|| command.isEmpty() 
-				|| command.equalsIgnoreCase("") ) {
-			
-			throw new BadRequestException();
-		}
-		
-		String[] commandChar = command.toUpperCase().split("");
-		
-		for ( String movement : commandChar ) {
-			if ( ! Movement.contains( movement ) ) {
-				throw new NotAcceptableException();
-			}
-		}		
 	}
 }

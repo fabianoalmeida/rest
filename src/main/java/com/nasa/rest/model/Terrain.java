@@ -14,7 +14,7 @@ public class Terrain {
 	
 	public boolean exists( int value ) {
 		
-		if ( dimension.length < value ) 
+		if ( value < 0 || dimension.length < value) 
 			return false;
 		
 		return true;

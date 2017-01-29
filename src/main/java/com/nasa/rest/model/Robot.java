@@ -4,6 +4,7 @@ import javax.ws.rs.ForbiddenException;
 
 import com.nasa.rest.constants.Movement;
 import com.nasa.rest.constants.Orientation;
+import com.nasa.rest.util.CommandUtil;
 
 public class Robot {
 
@@ -24,6 +25,8 @@ public class Robot {
 	}
 	
 	public void move( String movement, Terrain terrain ) {
+		
+		CommandUtil.validateCommand( movement );
 		
 		String[] movementChar = movement.split("");
 		
@@ -46,6 +49,10 @@ public class Robot {
 	}
 	
 	private void validateMovement( Terrain terrain ) {
+		
+		if ( terrain == null ) {
+			throw new IllegalArgumentException();
+		}
 		
 		if ( orientation.equals( Orientation.NORTH ) ) {
 			
